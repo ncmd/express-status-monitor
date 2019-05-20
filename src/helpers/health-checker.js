@@ -19,6 +19,9 @@ module.exports = async healthChecks => {
 
   (healthChecks || []).forEach(healthCheck => {
     let uri = `${healthCheck.protocol}://${healthCheck.host}`;
+    let requestmethod = 'GET';
+    let requestbody = [];
+    let requestheaders = []
 
     if (healthCheck.port) {
       uri += `:${healthCheck.port}`;
@@ -26,9 +29,24 @@ module.exports = async healthChecks => {
 
     uri += healthCheck.path;
 
+    if (healthCheck.requestmethod){
+      requestmethod = healthCheck.requestmethod;
+    }
+
+    if (healthCheck.requestbody){
+      requestbody = healthCheck.requestbody;
+    }
+
+    if (healthCheck.headers){
+      requestheaders = healthCheck.requestheaders;
+    }
+    
+
     checkPromises.push(axios({
       url: uri,
-      method: 'GET'
+      method: requestmethod,
+      requestbody,
+      headers: requestheaders
     }));
   });
 

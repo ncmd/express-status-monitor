@@ -36,6 +36,15 @@ app.use(
         path: '/return-status/200',
         headers: {},
       },
+      {
+        protocol: 'http',
+        host: 'localhost',
+        port: 3000,
+        path: '/user/create',
+        headers: {},
+        requestmethod: 'POST',
+        requestbody:{user:'test'}
+      },
     ],
   }),
 );
@@ -45,6 +54,15 @@ app.use(require('express-favicon-short-circuit'));
 app.get('/return-status/:statusCode', (req, res) =>
   res.sendStatus(req.params.statusCode),
 );
+
+// Example POST request
+const UserRouter = express.Router();
+UserRouter.route('/create').post(function (req, res) {
+    console.log(req.query)
+    res.json('User added successfully');
+});
+app.use('/user', UserRouter);
+
 
 app.listen(port, () => {
   console.log(`Listening on http://0.0.0.0:${port}`);
