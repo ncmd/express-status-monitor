@@ -27,6 +27,7 @@ app.use(
         host: 'localhost',
         port: 3000,
         path: '/admin/health/ex1',
+        requestmethod: 'GET',
         headers: {},
       },
       {
@@ -34,16 +35,16 @@ app.use(
         host: 'localhost',
         port: 3000,
         path: '/return-status/200',
+        requestmethod: 'GET',
         headers: {},
       },
       {
         protocol: 'http',
         host: 'localhost',
         port: 3000,
-        path: '/user/create',
-        headers: {},
+        path: '/create',
         requestmethod: 'POST',
-        requestbody:{user:'test'}
+        body:{"userd":"test"},
       },
     ],
   }),
@@ -55,14 +56,21 @@ app.get('/return-status/:statusCode', (req, res) =>
   res.sendStatus(req.params.statusCode),
 );
 
+const bodyParser = require('body-parser');
+
+
 // Example POST request
-const UserRouter = express.Router();
-UserRouter.route('/create').post(function (req, res) {
-    console.log(req.query)
+// const UserRouter = express.Router();
+app.use(bodyParser.json());
+app.route('/create').post(function (req, res) {
+  console.log("REQUEST",req.method)  
+  console.log("REQUEST",req.body)  
+  // console.log("RESPONSE",res)
+    // console.log("METHOD",req)
     res.json('User added successfully');
 });
 
-app.use('/user', UserRouter);
+// app.use('/user', UserRouter);
 
 
 app.listen(port, () => {
