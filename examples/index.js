@@ -61,6 +61,7 @@ UserRouter.route('/create').post(function (req, res) {
     console.log(req.query)
     res.json('User added successfully');
 });
+
 app.use('/user', UserRouter);
 
 

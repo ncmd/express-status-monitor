@@ -45,7 +45,7 @@ module.exports = async healthChecks => {
     checkPromises.push(axios({
       url: uri,
       method: requestmethod,
-      requestbody,
+      body: requestbody,
       headers: requestheaders
     }));
   });
